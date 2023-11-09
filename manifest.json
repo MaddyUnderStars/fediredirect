@@ -1,0 +1,33 @@
+{
+	"manifest_version": 2,
+	"name": "Fediredirect",
+	"version": "1.0",
+	"description": "Redirects Fediverse posts to your home instance",
+	"homepage_url": "https://github.com/MaddyUnderStars/fediredirect",
+	"permissions": [
+		"activeTab",
+		"storage",
+		"https://*/*"
+	],
+	"browser_action": {
+		"browser_style": false,
+		"default_icon": "./icons/fedi.png",
+		"default_popup": "./public/popup.html"
+	},
+	"options_ui": {
+		"page": "./public/settings.html",
+		"browser_style": false,
+		"open_in_tab": true
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://*/*"
+			],
+			"js": [
+				"./build/redirector.js"
+			],
+			"run_at": "document_idle"
+		}
+	]
+}
