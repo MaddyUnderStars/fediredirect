@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fediredirect | Settings</title>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Fediredirect | Settings</title>
+		<style>
+			html,
+			body {
+				background-color: black;
+				color: white;
+				padding: 20px;
+			}
+		</style>
+	</head>
 
-	<style>
-		html,
-		body {
-			background-color: black;
-			color: white;
-			padding: 20px;
-		}
-	</style>
-</head>
+	<body>
+		<div class="container">
+			<form id="mastodon">
+				<p>Mastodon:</p>
+				<label for="mastodon_instance">Instance: </label>
+				<input
+					type="url"
+					id="mastodon_instance"
+					name="instance"
+					required
+				/>
+				<label for="mastodon_code">Code: </label>
+				<input type="code" id="mastodon_code" name="code" />
+				<input type="submit" />
+			</form>
+		</div>
 
-<body>
-	<div class="container">
-		<form id="mastodon">
-			<p>Mastodon:</p>
-			<label for="mastodon_instance">Instance: </label>
-			<input type="url" id="mastodon_instance" name="instance" required>
-			<label for="mastodon_code">Code: </label>
-			<input type="code" id="mastodon_code" name="code">
-			<input type="submit">
-		</form>
-	</div>
-
-	<script src="../build/settings/index.js"></script>
-</body>
-
+		<script src="../build/settings/index.js"></script>
+	</body>
 </html>

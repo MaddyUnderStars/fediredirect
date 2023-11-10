@@ -1,6 +1,6 @@
 import { MastodonApplication } from "../types/mastodon";
 
-type Application = MastodonApplication;	// TODO;
+type Application = MastodonApplication; // TODO;
 
 export type Handler = {
 	type: string;
@@ -16,14 +16,12 @@ export type Handler = {
 
 	/** Check whether a URL looks like it belongs to this service */
 	urlLooksValid: (url: URL) => boolean;
-}
+};
 
 export const getHandlersForUrl = (url: URL) => {
-	return handlers.filter(x => x.urlLooksValid(url));
-}
+	return handlers.filter((x) => x.urlLooksValid(url));
+};
 
 import mastodon from "./mastodon";
-const handlers = [
-	mastodon
-] as Handler[];
+const handlers = [mastodon] as Handler[];
 export default handlers;

@@ -6,34 +6,32 @@ export type MastodonApplication = {
 	client_id: string;
 	client_secret: string;
 	vapid_key: string;
-}
+};
 
 export type RedirectSettings = {
 	code: string;
 	instance: string;
 	client_id: string;
 	client_secret: string;
-}
+};
 
 export type MastodonStatus = {
-	id: string,
-	url: string,
+	id: string;
+	url: string;
 
-	account: MastodonAccount,
-}
+	account: MastodonAccount;
+};
 
-export type MastodonHashtag = {
-
-}
+export type MastodonHashtag = {};
 
 export type MastodonAccount = {
-	id: string,
-	url: string,
-	username: string,
-}
+	id: string;
+	url: string;
+	username: string;
+};
 
 export type MastodonSearchResults = {
-	accounts: MastodonAccount[],
-	statuses: MastodonStatus[],
-	hashtags: MastodonHashtag[],
-}
+	accounts: MastodonAccount[];
+	statuses: MastodonStatus[];
+	hashtags: MastodonHashtag[];
+};

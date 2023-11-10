@@ -4,12 +4,7 @@
 	"version": "1.0",
 	"description": "Redirects Fediverse posts to your home instance",
 	"homepage_url": "https://github.com/MaddyUnderStars/fediredirect",
-	"permissions": [
-		"activeTab",
-		"storage",
-		"webNavigation",
-		"https://*/*"
-	],
+	"permissions": ["activeTab", "storage", "webNavigation", "https://*/*"],
 	"browser_action": {
 		"browser_style": false,
 		"default_icon": "./icons/fedi.png",
@@ -21,8 +16,6 @@
 		"open_in_tab": true
 	},
 	"background": {
-		"scripts": [
-			"./build/background.js"
-		]
+		"scripts": ["./build/background.js"]
 	}
 }
