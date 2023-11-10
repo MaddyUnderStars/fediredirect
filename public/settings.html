@@ -1,37 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Fediredirect | Settings</title>
 
-		<style>
-			html,
-			body {
-				background-color: black;
-				color: white;
-				padding: 20px;
-			}
-		</style>
-	</head>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Fediredirect | Settings</title>
 
-	<body>
-		<div class="container">
-			<form id="mastodon">
-				<p>Mastodon:</p>
-				<label for="mastodon_instance">Instance: </label>
-				<input
-					type="url"
-					id="mastodon_instance"
-					name="instance"
-					required
-				/>
-				<label for="mastodon_code">Code: </label>
-				<input type="code" id="mastodon_code" name="code" />
-				<input type="submit" />
-			</form>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+
+	<style>
+		body {
+			font-family: 'Inter', sans-serif;
+			margin: 3rem;
+		}
+
+		h1,
+		h2,
+		h3 {
+			margin: 0;
+		}
+
+		.section {
+			margin: 2rem 0 2rem 0;
+		}
+
+		.handler {
+			padding: 20px 0 0 0;
+		}
+
+		.handler * {
+			display: inline;
+		}
+
+		.handler form {
+			display: block;
+		}
+
+		dialog {
+			border: 2px solid grey;
+			border-radius: 20px;
+			padding: 30px;
+		}
+
+		dialog::backdrop {
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1>FediRedirect</h1>
+
+		<div class="section">
+			<h2>Redirect handlers</h2>
+			<div class="handler">
+				<h3>Mastodon</h3>
+				<img src="icons/mastodon.svg">
+				<form data-type="mastodon">
+					<label for="mastodon_url">Instance</label>
+					<input type="url" id="mastodon_url" name="url" required />
+					<input type="submit" value="Go">
+				</form>
+			</div>
 		</div>
 
-		<script src="../build/settings/index.js"></script>
-	</body>
+		<!-- <div class="section">
+			<h2>Settings</h2>
+			<form>
+				<label for="automatic_redirects">Automatically redirect:</label>
+				<input type="checkbox" name="automatic_redirects" id="automatic_redirects">
+			</form>
+		</div> -->
+	</div>
+
+	<dialog id="code_dialog">
+		<h1>OAuth2 Code</h1>
+		<p>After authorizing FediRedirect, copy and paste the code provided here</p>
+		<form method="dialog">
+			<label for="oauth_code">Code:</label>
+			<input type="text" id="oauth_code" name="code">
+			<input type="submit" value="Go">
+		</form>
+	</dialog>
+
+	<script type="module" src="../build/settings/index.js"></script>
+</body>
+
 </html>

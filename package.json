@@ -2,6 +2,8 @@
 	"devDependencies": {
 		"@types/firefox": "^0.0.34",
 		"@types/firefox-webext-browser": "^111.0.4",
+		"@types/react": "^18.2.37",
+		"@types/react-dom": "^18.2.15",
 		"esbuild": "^0.19.5",
 		"typescript": "^5.2.2",
 		"web-ext": "^7.8.0",
@@ -9,12 +11,13 @@
 	},
 	"name": "fediredirect",
 	"version": "1.0.0",
-	"main": "index.js",
 	"scripts": {
 		"start": "web-ext run",
-		"build": "node esbuild.js"
+		"build": "node esbuild.js",
+		"prod": "web-ext build",
+		"sign": "web-ext sign"
 	},
-	"author": "",
+	"author": "MaddyUnderStars",
 	"license": "AGPL-3.0-or-later",
-	"description": ""
+	"description": "Redirect fediverse links to your home instance"
 }

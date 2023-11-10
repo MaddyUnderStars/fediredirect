@@ -8,12 +8,12 @@ export type MastodonApplication = {
 	vapid_key: string;
 };
 
-export type RedirectSettings = {
+export type RedirectSettings = Partial<{
 	code: string;
 	instance: string;
 	client_id: string;
 	client_secret: string;
-};
+}>;
 
 export type MastodonStatus = {
 	id: string;

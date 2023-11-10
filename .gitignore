@@ -1,2 +1,4 @@
 node_modules
 build
+web-ext-artifacts
+.web-extension-id
