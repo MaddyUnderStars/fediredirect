@@ -1,5 +1,6 @@
+import handlers from "../lib/index";
 import { RedirectSettings } from "../types/mastodon";
-import { createMastodonApp, makeMastodonAuthUrl, validateUrl } from "../utils";
+import { validateUrl } from "../utils";
 
 document.getElementById("mastodon")!.addEventListener("submit", async (event) => {
 	event.preventDefault();
@@ -24,7 +25,9 @@ document.getElementById("mastodon")!.addEventListener("submit", async (event) =>
 		return;
 	}
 
-	const app = await createMastodonApp(instance);
+	const handler = handlers[0];
+
+	const app = await handler.createApp(instance);
 
 	await browser.storage.local.set({
 		mastodon: {
@@ -36,6 +39,6 @@ document.getElementById("mastodon")!.addEventListener("submit", async (event) =>
 	})
 
 	browser.tabs.create({
-		url: makeMastodonAuthUrl(instance, app).toString(),
+		url: handler.makeAuthUrl(instance, app).toString(),
 	})
 })

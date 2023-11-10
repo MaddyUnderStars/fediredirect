@@ -2,7 +2,7 @@ const esbuild = require("esbuild");
 
 esbuild.build({
 	entryPoints: [
-		"./src/redirector.ts",
+		"./src/background.ts",
 		"./src/settings/index.ts",
 		"./src/popup/index.ts",
 	],

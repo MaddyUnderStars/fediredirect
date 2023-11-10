@@ -1,4 +1,5 @@
-import { findRemoteMastodonPost, validateUrl } from "../utils";
+import { getHandlersForUrl } from "../lib/index";
+import { validateUrl } from "../utils";
 
 document.getElementById("mastodon")?.addEventListener("click", async (event) => {
 	event.preventDefault();
@@ -7,9 +8,17 @@ document.getElementById("mastodon")?.addEventListener("click", async (event) => 
 	const url = validateUrl(tab.url);
 	if (!url) return;
 
-	const post = await findRemoteMastodonPost(url);
+	// TODO: find which software the current tab runs
+	// TODO: instead of filtering by what the URL looks like, use the above to just grab the handler ourselves
+
+	const handlers = getHandlersForUrl(url);
+	if (!handlers.length) return;
+
+	const handler = handlers[0];
+
+	const post = await handler.findRemote(url);
 
 	browser.tabs.update(undefined, {
-		url: post,
+		url: post.toString(),
 	})
 })
