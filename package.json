@@ -2,8 +2,6 @@
 	"devDependencies": {
 		"@types/firefox": "^0.0.34",
 		"@types/firefox-webext-browser": "^111.0.4",
-		"@types/react": "^18.2.37",
-		"@types/react-dom": "^18.2.15",
 		"esbuild": "^0.19.5",
 		"typescript": "^5.2.2",
 		"web-ext": "^7.8.0",
@@ -19,5 +17,8 @@
 	},
 	"author": "MaddyUnderStars",
 	"license": "AGPL-3.0-or-later",
-	"description": "Redirect fediverse links to your home instance"
+	"description": "Redirect fediverse links to your home instance",
+	"dependencies": {
+		"deepmerge": "^4.3.1"
+	}
 }

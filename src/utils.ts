@@ -1,3 +1,6 @@
+import merge from "deepmerge";
+import { ExtensionSettings } from "./types";
+
 export const validateUrl = (url: string | undefined | null) => {
 	if (!url) return undefined;
 	try {
@@ -5,4 +8,13 @@ export const validateUrl = (url: string | undefined | null) => {
 	} catch (e) {
 		return undefined;
 	}
+};
+
+export const getSettings = async (): Promise<ExtensionSettings> => {
+	return await browser.storage.local.get();
+};
+
+export const setSettings = async (settings: Partial<ExtensionSettings>) => {
+	const old = await getSettings();
+	await browser.storage.local.set(merge(old, settings));
 };

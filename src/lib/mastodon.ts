@@ -1,8 +1,5 @@
-import {
-	MastodonApplication,
-	MastodonSearchResults,
-	RedirectSettings,
-} from "../types/mastodon";
+import { MastodonApplication, MastodonSearchResults } from "../types/mastodon";
+import { getSettings } from "../utils";
 import { Handler } from "./index";
 
 const MASTODON_REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
@@ -34,8 +31,8 @@ const makeAuthUrl = (instance: URL, app: MastodonApplication) => {
 };
 
 const findRemote = async (url: URL) => {
-	const opts = (await browser.storage.local.get())
-		.mastodon as RedirectSettings;
+	const opts = (await getSettings())?.handlers?.mastodon;
+	if (!opts?.instance) return;
 	const requrl = new URL(opts.instance);
 	requrl.pathname = "/api/v2/search";
 	requrl.searchParams.append("q", url.toString());

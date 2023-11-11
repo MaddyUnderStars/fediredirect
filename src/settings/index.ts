@@ -1,6 +1,5 @@
 import handlers from "../lib/index";
-import { RedirectSettings } from "../types/mastodon";
-import { validateUrl } from "../utils";
+import { getSettings, setSettings, validateUrl } from "../utils";
 
 let currentlyHandling: string;
 const dialog = document.getElementById("code_dialog") as HTMLDialogElement;
@@ -19,13 +18,15 @@ const handler = async (event: SubmitEvent) => {
 
 	const app = await handler.createApp(instance);
 
-	await browser.storage.local.set({
-		[handler.type]: {
-			code: undefined,
-			instance: instance.toString(),
-			client_id: app.client_id,
-			client_secret: app.client_secret,
-		} as RedirectSettings,
+	await setSettings({
+		handlers: {
+			[handler.type]: {
+				code: undefined,
+				instance: instance.toString(),
+				client_id: app.client_id,
+				client_secret: app.client_secret,
+			},
+		},
 	});
 
 	currentlyHandling = handler.type;
@@ -36,17 +37,17 @@ const handler = async (event: SubmitEvent) => {
 	});
 };
 
-const forms = document.querySelectorAll(
+const handlerforms = document.querySelectorAll(
 	".handler form",
 ) as NodeListOf<HTMLFormElement>;
-[...forms].forEach(async (x) => {
+[...handlerforms].forEach(async (x) => {
 	x.addEventListener("submit", handler);
 
-	const opts = (await browser.storage.local.get())[
+	const opts = (await getSettings())?.handlers?.[
 		x.getAttribute("data-type")!
-	] as RedirectSettings;
+	];
 
-	if (opts.instance)
+	if (opts?.instance)
 		(x.elements.namedItem("url") as HTMLInputElement).value = opts.instance;
 });
 
@@ -55,17 +56,36 @@ document
 	.addEventListener("submit", async (event) => {
 		event.preventDefault();
 
-		const opts = (await browser.storage.local.get())[
-			currentlyHandling
-		] as RedirectSettings;
+		const opts = (await getSettings())?.handlers?.[currentlyHandling];
 
 		const data = new FormData(event.target as HTMLFormElement);
-		await browser.storage.local.set({
-			[currentlyHandling]: {
-				...opts,
-				code: data.get("code"),
-			} as RedirectSettings,
+		await setSettings({
+			handlers: {
+				[currentlyHandling]: {
+					code: data.get("code")?.toString(),
+				},
+			},
 		});
 
 		dialog.close();
 	});
+
+const settings = document.querySelectorAll(
+	"#settings input",
+) as NodeListOf<HTMLInputElement>;
+[...settings].forEach(async (x) => {
+	const key = x.getAttribute("name");
+	if (!key) return alert("you forgot to set the input name");
+
+	(x as HTMLInputElement).addEventListener("change", async (event) => {
+		const target = event.target as HTMLInputElement;
+		let value: string | boolean = target.value;
+		if (target.getAttribute("type") == "checkbox") value = target.checked;
+		await setSettings({ [key]: value });
+	});
+
+	const settings = await getSettings();
+	const value = settings[key as keyof typeof settings]; // silly
+	if (x.getAttribute("type") == "checkbox") x.checked = value as boolean;
+	else x.value = value as any as string;
+});

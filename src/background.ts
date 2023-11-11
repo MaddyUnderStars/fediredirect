@@ -1,6 +1,5 @@
 import { getHandlersForUrl } from "./lib/index";
-import { RedirectSettings } from "./types/mastodon";
-import { validateUrl } from "./utils";
+import { getSettings, validateUrl } from "./utils";
 
 const handler = async () => {
 	const tab = (
@@ -16,10 +15,11 @@ const handler = async () => {
 
 	const handler = handlers[0];
 
-	const opts = (await browser.storage.local.get())[
-		handler.type
-	] as RedirectSettings;
-	if (new URL(opts.instance).origin == url.origin) return;
+	const opts = await getSettings();
+	if (!opts.automatic_redirects) return;
+	const handleropts = opts.handlers?.[handler.type];
+	if (!handleropts?.instance) return;
+	if (new URL(handleropts.instance).origin == url.origin) return;
 
 	const post = await handler.findRemote(url);
 
