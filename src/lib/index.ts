@@ -1,4 +1,5 @@
 import { MastodonApplication } from "../types/mastodon";
+import { getSettings, validateUrl } from "../utils";
 
 type Application = MastodonApplication; // TODO;
 
@@ -20,6 +21,38 @@ export type Handler = {
 
 export const getHandlersForUrl = (url: URL) => {
 	return handlers.filter((x) => x.urlLooksValid(url));
+};
+
+export const doRedirect = async (handler?: Handler) => {
+	const tab = (
+		await browser.tabs.query({ active: true, currentWindow: true })
+	)[0];
+	const url = validateUrl(tab.url);
+	if (!url) return;
+
+	if (!handler) {
+		const handlers = getHandlersForUrl(url);
+		if (!handlers.length) return;
+
+		// todo: find which software the current tab is running, i.e. mastodon etc
+		// TODO: instead of filtering by what the URL looks like, use the above to just grab the handler ourselves
+
+		handler = handlers[0];
+	}
+
+	const opts = await getSettings();
+	if (!opts.automatic_redirects) return;
+	const handleropts = opts.handlers?.[handler.type];
+	if (!handleropts?.instance || !handleropts.code) return;
+	if (new URL(handleropts.instance).origin == url.origin) return;
+
+	console.log(url);
+
+	const post = await handler.findRemote(url);
+
+	browser.tabs.update(tab.id, {
+		url: post.toString(),
+	});
 };
 
 import mastodon from "./mastodon";

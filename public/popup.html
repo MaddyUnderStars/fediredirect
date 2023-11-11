@@ -5,11 +5,19 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Fediredirect</title>
+
+	<style>
+		#notice {
+			display: none;
+		}
+	</style>
 </head>
 
 <body>
-	<button id="mastodon">redirect to mastodon</button>
+	<div id="notice">You haven't configured any redirects.</div>
+	<div id="redirect_buttons"></div>
 
+	<button id="settings">Settings</button>
 	<script src="../build/popup/index.js"></script>
 </body>
 

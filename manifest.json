@@ -12,7 +12,8 @@
 	"permissions": [
 		"activeTab",
 		"storage",
-		"webNavigation"
+		"webNavigation",
+		"<all_urls>"
 	],
 	"browser_action": {
 		"browser_style": false,

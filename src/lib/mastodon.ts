@@ -31,8 +31,12 @@ const makeAuthUrl = (instance: URL, app: MastodonApplication) => {
 };
 
 const findRemote = async (url: URL) => {
-	const opts = (await getSettings())?.handlers?.mastodon;
-	if (!opts?.instance) return;
+	const settings = await getSettings();
+	const opts = settings.handlers!.mastodon;
+	if (!opts || !opts.instance || !opts.code) return;
+
+	console.log(opts);
+
 	const requrl = new URL(opts.instance);
 	requrl.pathname = "/api/v2/search";
 	requrl.searchParams.append("q", url.toString());

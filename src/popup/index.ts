@@ -1,28 +1,28 @@
-import { getHandlersForUrl } from "../lib/index";
-import { validateUrl } from "../utils";
+import handlers, { doRedirect } from "../lib";
+import { getSettings } from "../utils";
 
-document
-	.getElementById("mastodon")
-	?.addEventListener("click", async (event) => {
-		event.preventDefault();
+const notice = document.getElementById("notice");
+const buttons = document.getElementById("redirect_buttons");
 
-		const tab = (
-			await browser.tabs.query({ active: true, currentWindow: true })
-		)[0];
-		const url = validateUrl(tab.url);
-		if (!url) return;
+(async () => {
+	const settings = await getSettings();
+	console.log(settings);
+	if (!Object.keys(settings.handlers || {}).length) {
+		notice!.style.display = "block";
+		return;
+	}
 
-		// TODO: find which software the current tab runs
-		// TODO: instead of filtering by what the URL looks like, use the above to just grab the handler ourselves
+	for (const name in settings.handlers) {
+		const handler = handlers.find((x) => x.type == name);
+		if (!handler) continue;
+		const button = document.createElement("button");
+		button.innerHTML = name;
+		buttons!.appendChild(button);
 
-		const handlers = getHandlersForUrl(url);
-		if (!handlers.length) return;
+		button.addEventListener("click", () => doRedirect(handler));
+	}
+})();
 
-		const handler = handlers[0];
-
-		const post = await handler.findRemote(url);
-
-		browser.tabs.update(undefined, {
-			url: post.toString(),
-		});
-	});
+document.getElementById("settings")!.addEventListener("click", (event) => {
+	browser.runtime.openOptionsPage();
+});
