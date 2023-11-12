@@ -41,7 +41,6 @@ export const doRedirect = async (handler?: Handler) => {
 	}
 
 	const opts = await getSettings();
-	if (!opts.automatic_redirects) return;
 	const handleropts = opts.handlers?.[handler.type];
 	if (!handleropts?.instance || !handleropts.code) return;
 	if (new URL(handleropts.instance).origin == url.origin) return;
