@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Fediredirect",
-	"version": "1.0",
+	"version": "1.1",
 	"description": "Redirects Fediverse posts to your home instance",
 	"homepage_url": "https://github.com/MaddyUnderStars/fediredirect",
 	"browser_specific_settings": {
