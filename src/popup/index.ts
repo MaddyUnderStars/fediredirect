@@ -9,6 +9,7 @@ const buttons = document.getElementById("redirect_buttons");
 	console.log(settings);
 	if (!Object.keys(settings.handlers || {}).length) {
 		notice!.style.display = "block";
+		buttons!.style.display = "none";
 		return;
 	}
 
